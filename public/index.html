@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111124">
+  <meta name="description" content="White Hosting ID Temporary Mail — a fast and convenient temporary email inbox.">
+  <title>White Hosting ID — Temporary Mail</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="White Hosting ID Home">
+      <img src="/logo.png" alt="White Hosting ID" class="brand-icon">
+      <span><b>WHITE HOSTING ID</b><small>TEMPORARY MAIL</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="status"><i></i><span data-i18n="serviceStatus">Service ready</span></span>
+      <button id="langToggle" class="lang-toggle" type="button">EN / ID</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="hero">
+      <div class="eyebrow"><span class="sparkle">✦</span> PRIVATE · SIMPLE · FAST</div>
+      <h1 data-i18n="headline">Your temporary inbox.<br><em>Ready in seconds.</em></h1>
+      <p data-i18n="subheadline">Create a temporary email address to receive messages without exposing your personal inbox.</p>
+    </section>
+
+    <section class="generator panel">
+      <div class="panel-heading">
+        <div><span class="step">01</span><h2 data-i18n="createTitle">Create your address</h2></div>
+        <span class="pill" data-i18n="noSignup">NO SIGN-UP</span>
+      </div>
+
+      <div class="mode-tabs mode-tabs-actions" role="group" aria-label="Email actions">
+        <button class="mode-tab active" id="customMode" type="button" data-mode="custom" data-i18n="customMode">Custom address</button>
+        <button class="mode-tab" id="randomMode" type="button" data-mode="random" data-i18n="randomMode">Random address</button>
+        <a class="mode-tab action-tab" id="checkInboxNav" href="/inbox">Cek Inbox</a>
+        <a class="mode-tab action-tab admin-tab" id="adminDashboardNav" href="/admin">Admin Dashboard</a>
+      </div>
+
+      <div id="createFields">
+
+      <div id="customFields" class="custom-fields">
+        <label for="localPart" data-i18n="usernameLabel">Choose your username</label>
+        <div class="address-input">
+          <input id="localPart" type="text" maxlength="64" placeholder="yourname" autocomplete="off" spellcheck="false">
+          <span class="at">@</span>
+          <select id="domainSelect" aria-label="Email domain">
+            <option value="whtstore.my.id">whtstore.my.id</option>
+            <option value="shirochan.my.id">shirochan.my.id</option>
+            <option value="kingxjunz.my.id">kingxjunz.my.id</option>
+          </select>
+        </div>
+        <p class="hint" data-i18n="usernameHint">Use lowercase letters, numbers, dots, underscores, or hyphens.</p>
+      </div>
+
+      <div id="randomFields" class="random-fields hidden">
+        <label for="randomDomain" data-i18n="domainLabel">Choose email domain</label>
+        <select id="randomDomain" class="full-select">
+          <option value="whtstore.my.id">whtstore.my.id</option>
+          <option value="shirochan.my.id">shirochan.my.id</option>
+          <option value="kingxjunz.my.id">kingxjunz.my.id</option>
+        </select>
+        <p class="hint" data-i18n="randomHint">We'll generate a unique random address for you.</p>
+      </div>
+
+      <div class="expiry-fields">
+        <label for="ttlSelect" data-i18n="expiryLabel">Mailbox expiration</label>
+        <select id="ttlSelect" class="full-select">
+          <option value="15" data-i18n="ttl15">15 minutes</option>
+          <option value="60" data-i18n="ttl60">1 hour</option>
+          <option value="360" data-i18n="ttl360">6 hours</option>
+          <option value="720" data-i18n="ttl720">12 hours</option>
+          <option value="1440" selected data-i18n="ttl1440">24 hours</option>
+        </select>
+        <p class="hint" data-i18n="expiryHint">Choose how long this mailbox remains active.</p>
+      </div>
+
+      <button id="createBtn" class="primary-btn" type="button"><span data-i18n="createBtn">Create temporary email</span><span>↗</span></button>
+      <p id="createError" class="error" role="alert"></p>
+      </div>
+    <section id="accessPanel" class="access-panel hidden">
+      <label for="accessAddress" data-i18n="accessAddressLabel">Alamat email yang sudah dibuat</label>
+      <input id="accessAddress" class="full-select" type="email" placeholder="Your temp mail" autocomplete="email">
+      <label for="accessToken" data-i18n="accessTokenLabel">Recovery token</label>
+      <input id="accessToken" class="full-select" type="password" placeholder="Masukkan recovery token" autocomplete="off">
+      <p class="hint" data-i18n="accessHint">Token tersimpan otomatis di browser ini. Gunakan token untuk pemulihan dari perangkat lain.</p>
+      <button id="accessBtn" class="primary-btn" type="button"><span data-i18n="accessBtn">Buka inbox</span><span>↗</span></button>
+      <p id="accessError" class="error" role="alert"></p>
+    </section>
+
+    </section>
+
+
+
+    <section id="inboxPanel" class="inbox-panel panel hidden">
+      <div class="inbox-head">
+        <div><span class="step">02</span><h2 data-i18n="inboxTitle">Your inbox</h2></div>
+        <div class="inbox-actions">
+          <button id="refreshBtn" class="icon-btn" type="button" title="Refresh inbox" aria-label="Refresh inbox">↻</button>
+          <button id="deleteBtn" class="icon-btn danger" type="button" title="Delete inbox" aria-label="Delete inbox">×</button>
+        </div>
+      </div>
+      <div class="address-card">
+        <div><span class="small-label" data-i18n="yourAddress">YOUR EMAIL ADDRESS</span><strong id="currentAddress">—</strong></div>
+        <button id="copyBtn" class="copy-btn" type="button" data-i18n="copy">Copy</button>
+      </div>
+      <div class="recovery-card">
+        <label for="recoveryToken" data-i18n="recoveryLabel">Recovery token (simpan dengan aman)</label>
+        <input id="recoveryToken" class="full-select" type="password" readonly>
+        <button id="showTokenBtn" class="copy-btn" type="button" data-i18n="showToken">Tampilkan token</button>
+        <p class="hint" data-i18n="recoveryHint">Token ini diperlukan untuk membuka inbox dari perangkat lain. Jangan bagikan kepada siapa pun.</p>
+      </div>
+      <div class="inbox-meta"><span id="messageCount">0 messages</span><span id="expiryText"></span></div>
+      <div class="inbox-content">
+        <div class="message-list" id="messageList" aria-label="Inbox messages">
+          <div class="empty-state"><div class="empty-icon">✉</div><b data-i18n="emptyTitle">Waiting for incoming email</b><p data-i18n="emptyText">Messages sent to your address will appear here automatically.</p></div>
+        </div>
+        <article class="message-view" id="messageView">
+          <div class="message-placeholder"><div class="empty-icon">↖</div><b data-i18n="selectMessage">Select a message to read</b><p data-i18n="messagePreview">Email contents will appear in this panel.</p></div>
+        </article>
+      </div>
+      <p class="privacy-note" data-i18n="privacyNote">Inbox access is protected by a private browser token. Do not share your address if you expect sensitive mail.</p>
+    </section>
+
+    <section class="features">
+      <div><span class="feature-icon">⌁</span><b data-i18n="feature1Title">Instant address</b><p data-i18n="feature1Text">Generate custom or random inboxes in a few clicks.</p></div>
+      <div><span class="feature-icon">↻</span><b data-i18n="feature2Title">Live refresh</b><p data-i18n="feature2Text">Refresh your inbox to check for new messages.</p></div>
+      <div><span class="feature-icon">◈</span><b data-i18n="feature3Title">Multi-domain</b><p data-i18n="feature3Text">Choose from White Hosting ID email domains.</p></div>
+    </section>
+  </main>
+
+  <footer><span>© <span id="year"></span> White Hosting ID</span><span data-i18n="footerText">Temporary email service · Use responsibly</span></footer>
+  <script src="/app.js" defer></script>
+</body>
+</html>

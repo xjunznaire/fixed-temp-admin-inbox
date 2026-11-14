@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101020"><title>Admin Dashboard — White Hosting ID</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <div class="glow glow-a"></div><div class="glow glow-b"></div>
+  <main class="shell">
+    <section id="loginView" class="login-card">
+      <div class="brand-mark">WH<span>ID</span></div><p class="eyebrow">WHITE HOSTING ID</p>
+      <h1>Admin Dashboard</h1><p class="muted">Masuk untuk mengelola temporary mail.</p>
+      <form id="loginForm">
+        <label for="login">Username / Email</label><input id="login" autocomplete="username" required placeholder="Username/Email">
+        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Password">
+        <button class="primary" type="submit" id="loginBtn">Masuk ke Dashboard</button><p id="loginError" class="error"></p>
+      </form>
+      <a class="back" href="/">← Kembali ke website</a>
+    </section>
+
+    <section id="dashboardView" class="hidden">
+      <header class="topbar"><div><p class="eyebrow">WHITE HOSTING ID</p><h1>Admin Dashboard</h1><p class="muted">Monitoring temporary mail dan aktivitas inbox</p></div><div class="account"><span id="whoami"></span><button id="homeBtn" class="ghost" type="button">Home</button><button id="logoutBtn" class="ghost" type="button">Keluar</button></div></header>
+      <nav class="tabs"><button class="tab active" data-tab="overview">Ringkasan</button><button class="tab" data-tab="mailboxes">Temp Mail</button><button class="tab" data-tab="users">Admin Users</button><button class="tab tool-tab" data-tab="cleaner">Database Cleaner</button><button class="tab tool-tab" data-tab="console">Console</button><button class="tab tool-tab" data-tab="authenticator">A2F Authenticator</button></nav>
+      <section id="overviewTab" class="tab-panel">
+        <div class="overview-heading"><div><h2>Statistik Dashboard</h2><p class="muted">Ringkasan penggunaan temporary mail dan akun admin.</p></div><button id="refreshStats" class="ghost" type="button">↻ Perbarui statistik</button></div>
+        <div class="stats">
+          <article class="stat"><span>Total Temp Mail</span><strong id="statTotal">0</strong></article>
+          <article class="stat"><span>Inbox Aktif</span><strong id="statActive">0</strong></article>
+          <article class="stat"><span>Total Email Masuk</span><strong id="statMessages">0</strong></article>
+          <article class="stat"><span>Aktivitas Inbox</span><strong id="statHistory">0</strong></article>
+          <article class="stat"><span>Akun dengan Role Admin</span><strong id="statAdmins">0</strong></article>
+          <article class="stat"><span>Akun dengan Role Owner</span><strong id="statOwners">0</strong></article>
+          <article class="stat"><span>Temp Mail Hari Ini</span><strong id="statTodayMailboxes">0</strong></article>
+          <article class="stat"><span>Email Masuk Hari Ini</span><strong id="statTodayMessages">0</strong></article>
+          <article class="stat"><span>Aktivitas Hari Ini</span><strong id="statTodayHistory">0</strong></article>
+        </div>
+        <div class="panel trend-panel"><div class="panel-head"><div><h2>Tren 7 Hari Terakhir</h2><p class="muted">Perbandingan jumlah mailbox dibuat, email masuk, dan aktivitas inbox per hari.</p></div><div class="trend-legend"><span><i class="mailbox-key"></i>Temp Mail</span><span><i class="message-key"></i>Email Masuk</span><span><i class="activity-key"></i>Aktivitas</span></div></div><div id="statsTrend" class="trend-chart" aria-label="Grafik tren statistik tujuh hari terakhir"></div><p class="trend-note">Tinggi batang dinormalisasi per kategori. Arahkan kursor ke batang untuk melihat jumlah pastinya.</p></div>
+        <div class="panel"><div class="panel-head"><h2>Aktivitas terbaru</h2><button class="ghost" data-go="console">Lihat Console →</button></div><div id="recentHistory" class="table-wrap"></div></div>
+      </section>
+      <section id="mailboxesTab" class="tab-panel hidden"><div class="panel"><div class="panel-head"><div><h2>Daftar Temporary Mail</h2><p class="muted">Maksimal 200 alamat terbaru.</p></div><div class="search"><input id="mailSearch" placeholder="Cari alamat email…"><button id="searchBtn" class="primary small">Cari</button></div></div><div id="mailboxesTable" class="table-wrap"></div></div></section>
+      <section id="usersTab" class="tab-panel hidden"><div class="two-col"><div class="panel"><h2>Buat akun admin</h2><p class="muted">Akun dapat login menggunakan username atau email.</p><form id="userForm"><label for="newEmail">Email</label><input id="newEmail" type="email" autocomplete="email" required placeholder="admin@example.com"><p class="field-hint">Wajib diisi dan harus menggunakan email yang belum terdaftar.</p><label for="newRole">Role</label><select id="newRole" required><option value="admin">admin</option><option value="owner">owner</option></select><p class="field-hint">Hanya owner yang dapat membuat akun dengan role owner.</p><label for="newUsername">Username (opsional)</label><input id="newUsername" type="text" minlength="2" maxlength="32" pattern="[a-z0-9](?:[a-z0-9._-]{0,30}[a-z0-9])" autocomplete="off" placeholder="contoh: adminbaru"><p class="field-hint">Opsional. Jika diisi, gunakan 2–32 karakter: huruf kecil, angka, titik, garis bawah, atau strip. Jika dikosongkan, login menggunakan email.</p><label for="newPassword">Password</label><input id="newPassword" type="password" minlength="4" maxlength="256" autocomplete="new-password" required placeholder="Minimal 4 karakter"><p class="field-hint">Password boleh menggunakan huruf kecil semua tanpa angka.</p><button class="primary" type="submit">Buat user</button><p id="userError" class="error"></p><p id="userSuccess" class="success"></p></form></div><div class="panel"><h2>Akun admin terdaftar</h2><div id="usersTable" class="table-wrap"></div></div></div></section>
+      <section id="cleanerTab" class="tab-panel hidden">
+        <div class="panel cleaner-panel">
+          <div class="panel-head"><div><h2>Database Cleaner</h2><p class="muted">Pindai data kedaluwarsa sebelum menghapusnya.</p></div><button id="refreshCleaner" class="ghost" type="button">↻ Scan ulang</button></div>
+          <div class="cleaner-warning"><strong>Mode aman aktif</strong><span>Pratinjau ditampilkan sebelum penghapusan. Riwayat aktivitas/audit tidak akan dihapus.</span></div>
+          <div class="cleaner-stats">
+            <article class="cleaner-stat"><span>Mailbox kedaluwarsa</span><strong id="cleanExpiredMailboxes">—</strong></article>
+            <article class="cleaner-stat"><span>Email dari mailbox kedaluwarsa</span><strong id="cleanExpiredMessages">—</strong></article>
+            <article class="cleaner-stat"><span>Email lebih dari 7 hari</span><strong id="cleanOldMessages">—</strong></article>
+            <article class="cleaner-stat"><span>Email tanpa mailbox</span><strong id="cleanOrphanMessages">—</strong></article>
+            <article class="cleaner-stat"><span>Sesi admin kedaluwarsa</span><strong id="cleanExpiredSessions">—</strong></article>
+            <article class="cleaner-stat total"><span>Total item terdeteksi</span><strong id="cleanTotalItems">—</strong></article>
+          </div>
+          <div class="cleaner-actions"><span id="cleanerPermission" class="muted">Memeriksa izin…</span><button id="runCleaner" class="danger-btn" type="button" disabled>Bersihkan data terdeteksi</button></div>
+          <p id="cleanerStatus" class="tool-status" aria-live="polite"></p>
+          <p id="cleanerScannedAt" class="muted tiny-note">Belum dipindai.</p>
+        </div>
+      </section>
+      <section id="consoleTab" class="tab-panel hidden">
+        <div class="panel console-panel">
+          <div class="panel-head"><div><h2>Console / Riwayat pemeriksaan inbox</h2><p class="muted">Pembuatan mailbox, pemeriksaan inbox, dan pembukaan pesan.</p></div><div class="console-controls"><input id="consoleSearch" class="console-search" type="search" placeholder="Filter log…"><button id="refreshConsole" class="ghost" type="button">Refresh</button><button id="consolePause" class="ghost" type="button">Pause</button></div></div>
+          <div class="console-status"><span class="console-live-dot"></span><span id="consoleLiveStatus">LIVE · Menunggu log</span><span id="consoleLogCount">0 baris</span></div>
+          <div class="console-columns" aria-hidden="true"><span>Waktu</span><span>Alamat</span><span>Aktivitas</span><span>Actor</span><span>Detail</span></div>
+          <div id="consoleOutput" class="console-output" role="log" aria-live="polite"><p class="console-empty">Memuat log aplikasi…</p></div>
+          
+        </div>
+      </section>
+      <section id="authenticatorTab" class="tab-panel hidden">
+        <div class="panel utility-panel">
+          <div class="panel-head"><div><h2>2FA Authenticator</h2><p class="muted">Buat kode TOTP 6 digit dari secret key Base32. Kode berganti setiap 30 detik.</p></div><span class="utility-chip">LOKAL DI BROWSER</span></div>
+          <label for="totpSecret">Secret key (Base32)</label>
+          <input id="totpSecret" class="utility-input" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Contoh: JBSWY3DPEHPK3PXP">
+          <p class="field-hint">Secret diproses di browser ini dan tidak dikirim ke server. Jangan masukkan secret milik orang lain atau membagikan kode OTP.</p>
+          <div class="totp-result"><div><span class="muted">KODE OTP</span><strong id="totpCode">••• •••</strong><span id="totpCountdown" class="muted">Masukkan secret key</span></div><button id="copyTotp" class="ghost" type="button" disabled>Salin kode</button></div>
+          <p id="totpError" class="tool-status error" role="alert"></p>
+        </div>
+      </section>
+      <section id="messageModal" class="modal hidden"><div class="modal-card"><div class="panel-head"><div><p class="eyebrow">INBOX PREVIEW</p><h2 id="modalTitle">Pesan</h2><p id="modalMeta" class="muted"></p></div><button id="closeModal" class="ghost">Tutup ✕</button></div><div id="modalMessages"></div></div></section>
+      <footer>White Hosting ID · Admin access is monitored</footer>
+    </section>
+  </main>
+  <script src="/admin/admin.js" defer></script>
+</body></html>

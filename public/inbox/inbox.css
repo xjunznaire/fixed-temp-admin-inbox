@@ -1,0 +1,3 @@
+/* Inbox route shares the home generator panel; app.js swaps its fields. */
+.inbox-page .layout { padding-top: 0; }
+.inbox-page .inbox-panel { width:100%; max-width:860px; margin:22px auto 0; }
